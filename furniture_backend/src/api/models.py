@@ -37,3 +37,25 @@ class ProductQuery(BaseModel):
 class WishlistResponse(BaseModel):
     """Represents the wishlist for a user as a list of full Product objects."""
     items: List[Product] = Field(..., description="Products currently in the user's wishlist")
+
+
+# PUBLIC_INTERFACE
+class CartItem(BaseModel):
+    """An item in the user's cart."""
+    product: Product = Field(..., description="Product in the cart")
+    quantity: int = Field(..., ge=1, description="Quantity of the product in cart")
+    price: float = Field(..., ge=0, description="Unit price at the time of addition")
+    subtotal: float = Field(..., ge=0, description="Subtotal (quantity x price) for this product")
+
+
+# PUBLIC_INTERFACE
+class CartResponse(BaseModel):
+    """The user's cart, including all items and total."""
+    items: List[CartItem] = Field(..., description="Products with quantity, price, and subtotal")
+    total: float = Field(..., ge=0, description="Cart total sum")
+
+
+# PUBLIC_INTERFACE
+class UpdateQuantityRequest(BaseModel):
+    """Request body for PATCH to set item quantity in cart."""
+    quantity: int = Field(..., ge=1, description="New quantity")
