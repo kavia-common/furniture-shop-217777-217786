@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 
-from .routers import health, products
+from .routers import health, products, wishlist
 
 # Create FastAPI app with metadata for OpenAPI
 app = FastAPI(
@@ -14,6 +14,7 @@ app = FastAPI(
     openapi_tags=[
         {"name": "health", "description": "Service health and diagnostics"},
         {"name": "products", "description": "Furniture product catalog operations"},
+        {"name": "wishlist", "description": "Per-user wishlist operations (scoped via X-User-Id header)"},
     ],
 )
 
@@ -34,6 +35,7 @@ app.add_middleware(
 # Include routers
 app.include_router(health.router)
 app.include_router(products.router)
+app.include_router(wishlist.router)
 
 
 def custom_openapi():

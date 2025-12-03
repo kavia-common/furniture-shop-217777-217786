@@ -31,3 +31,9 @@ class ProductQuery(BaseModel):
     max_price: Optional[float] = Field(None, ge=0, description="Maximum price filter")
     page: int = Field(1, ge=1, description="Page number")
     page_size: int = Field(12, ge=1, le=100, description="Items per page (max 100)")
+
+
+# PUBLIC_INTERFACE
+class WishlistResponse(BaseModel):
+    """Represents the wishlist for a user as a list of full Product objects."""
+    items: List[Product] = Field(..., description="Products currently in the user's wishlist")
